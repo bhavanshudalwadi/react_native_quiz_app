@@ -9,8 +9,7 @@ const AdminContextProvider = ({ children }: any) => {
 
   const getUserList = async () => {
     const result = await getUsers()
-    if (result && result.length > 0 && result[0].rows.length > 0) {
-
+    if (result && result.length > 0) {
       let userList = [];
       for (let i = 0; i < result[0].rows.length; i++) {
         userList.push(result[0].rows.item(i))
@@ -22,7 +21,6 @@ const AdminContextProvider = ({ children }: any) => {
   }
 
   const insertQuestion = async (que: any) => {
-    console.log("que", que)
     const result = await addQuestion(que.question, que.option_1, que.option_2, que.option_3, que.option_4, que.answer)
     if (result && result.length > 0 && result[0].rowsAffected > 0) {
       Alert.alert('Success', 'Question added successful')

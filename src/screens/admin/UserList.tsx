@@ -1,8 +1,9 @@
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { memo, useEffect } from 'react'
 import { useAdminContext } from '../../contexts/adminContextProvider'
-import { Card, Heading } from '@gluestack-ui/themed';
+import { Card, Heading, Icon, SearchIcon } from '@gluestack-ui/themed';
 import { useUserContext } from '../../contexts/userContextProvider';
+import { Image, Text } from '@gluestack-ui/themed';
 
 const UserList = ({ navigation, route }: any) => {
   const { mode } = route.params
@@ -14,6 +15,7 @@ const UserList = ({ navigation, route }: any) => {
   }, [user])
 
   return (
+    <>
       <FlatList
         contentContainerStyle={{marginHorizontal: 16}}
         data={users}
@@ -28,9 +30,28 @@ const UserList = ({ navigation, route }: any) => {
         }
         keyExtractor={(item) => item.id}
       />
+      {users && users.length <= 0 ?
+        <View style={styles.notFoundContainer}>
+          <Icon as={SearchIcon} width={180} height={180} />
+          <Heading size='lg' mt="$3">No Users Found</Heading>
+          <Text mt="$1" size='md'>Add user to get user list.</Text>
+        </View>
+      :<></>}
+    </>
   )
 }
 
 export default memo(UserList)
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  notFoundContainer: {
+    top: '25%',
+    left: '28%',
+    position: 'absolute',
+    alignItems: 'center'
+  },
+  imgNotFound: {
+    width: 200,
+    height: 200
+  }
+})

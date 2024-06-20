@@ -1,7 +1,6 @@
 import { View, Text, Alert } from 'react-native'
 import React, { createContext, useContext, useState } from 'react'
 import { addResult, addUser, getQuestions, getResult, getUser, updateUser, resetResult } from '../db/databaseService'
-import { PersonImage } from '../screens/EditUser'
 
 const userContext = createContext<any>(null)
 
@@ -13,7 +12,7 @@ const UserContextProvider = ({ children }: any) => {
         username: '',
         phone_no: '',
         password: '',
-        image: PersonImage
+        image: 'https://static-00.iconduck.com/assets.00/person-icon-256x242-au2z2ine.png'
     })
 
     const insertUser = async (userDetails: any) => {
@@ -79,8 +78,12 @@ const UserContextProvider = ({ children }: any) => {
 
     const resetQuiz = async (user_id: number) => {
         const result = await resetResult(user_id)
-        if (result && result.length > 0 && result[0].rowsAffected > 0) {
-            Alert.alert('Success', 'Quiz reset completed')
+        if (result && result.length > 0) {
+            if(result[0].rowsAffected > 0) {
+                Alert.alert('Success', 'Quiz reset completed')
+            }else {
+                Alert.alert('Failed', 'Attempt quiz to reset')
+            }
         } else {
             Alert.alert('Failed', 'Failed to reset quiz')
         }

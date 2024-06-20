@@ -4,13 +4,13 @@ import React, { useEffect, useState } from 'react'
 import { Alert, StyleSheet } from 'react-native'
 import { useUserContext } from '../../contexts/userContextProvider';
 
-const DefaultUser = ({ navigation }: any) => {
+const DefaultUser = ({ navigation, route }: any) => {
     const [user_id, setUserId] = useState(null)
 
     const { resetQuiz } = useUserContext()
 
     const getUserId = async () => {
-        if(AsyncStorage.getItem('user') != null) {
+        if(await AsyncStorage.getItem('user') != null) {
             setUserId(JSON.parse(await AsyncStorage.getItem('user') ?? "").id)
         }
     }
@@ -18,22 +18,26 @@ const DefaultUser = ({ navigation }: any) => {
     const handleReset = async () => {
         if(user_id) {
             resetQuiz(user_id)
-            await AsyncStorage.removeItem('attempted_questions')
-            await AsyncStorage.removeItem('all_attempted')
+            if (await AsyncStorage.getItem('attempted_questions') != null) {
+                let que_list = JSON.parse(await AsyncStorage.getItem('attempted_questions') ?? "");
+                await AsyncStorage.setItem('attempted_questions', JSON.stringify(que_list.filter((e: any) => e.user_id != user_id)))
+            }
         }
     }
 
     const handleStartQuiz = async () => {
-        if(await AsyncStorage.getItem('all_attempted') != null) {
-            Alert.alert('Info', 'You have attempted all questions.\nPlease reset quiz to play again.')
-        }else {
-            navigation.navigate('Quiz')
-        }
+        navigation.navigate('Quiz')
     }
 
     useEffect(() => {
         getUserId();
     }, [])
+
+    useEffect(() => {
+        if(route.params && route.params.mode === "VIEW_REPORT") {
+            navigation.navigate('Report', { id: user_id })
+        }
+    }, [user_id, route])
 
     return (
         <View style={styles.container}>

@@ -26,7 +26,7 @@ const Splash = ({ navigation }: any) => {
         <View flex={1}>
             <StatusBar backgroundColor="#4ac2e8"  barStyle = "dark-content" />
             <View flex={1} justifyContent='center' alignItems='center' backgroundColor='#4ac2e8'>
-                <Image alt='logo' width={300} height={300} source={{uri: 'https://images-platform.99static.com/ToOcJbuDzoa8sqctL1QMGO089kA=/200x220:1800x1820/500x500/top/smart/99designs-contests-attachments/95/95660/attachment_95660693'}} />
+                <Image alt='logo' width={350} height={350} source={{uri: 'https://images-platform.99static.com/ToOcJbuDzoa8sqctL1QMGO089kA=/200x220:1800x1820/500x500/top/smart/99designs-contests-attachments/95/95660/attachment_95660693'}} />
             </View>
         </View>
     )

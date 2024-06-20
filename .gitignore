@@ -72,3 +72,7 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+android/gradle.properties
+android/app/build.gradle
+android/app/my-release-key.keystore
