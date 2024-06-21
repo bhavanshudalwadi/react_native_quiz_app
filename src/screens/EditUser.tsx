@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Button, ButtonText, Image, Input, InputField, ScrollView } from '@gluestack-ui/themed'
 import { launchImageLibrary as _launchImageLibrary, ImageLibraryOptions } from 'react-native-image-picker';
@@ -17,11 +17,15 @@ const EditUser = ({ navigation, route }: any) => {
     const { insertUser, getUserDetails, user, setUser, updateUserDetails } = useUserContext()
 
     const handleAddUser = () => {
-        if (insertUser({ username, phone_no, password, image })) {
-            setImage(PersonLogo)
-            setUsername("")
-            setPhoneNo("")
-            setPassword("")
+        if(username.trim() != '' && phone_no.trim() != '' && password.trim() != '') {
+            if (insertUser({ username: username.trim(), phone_no: phone_no.trim(), password: password.trim(), image })) {
+                setImage(PersonLogo)
+                setUsername("")
+                setPhoneNo("")
+                setPassword("")
+            }
+        }else {
+            Alert.alert('Invalid Inputs', 'Please enter valid user details')
         }
     }
 
@@ -82,47 +86,49 @@ const EditUser = ({ navigation, route }: any) => {
     }, [user])
 
     return (
-        <ScrollView style={styles.container}>
-            <TouchableOpacity style={styles.formImage} onPress={openImagePicker} disabled={mode && mode === 'VIEW'}>
-                {image === PersonLogo ?
-                <Image style={styles.formImage} alt='Upload Profile Image' source={image} />
-                :<Image style={styles.formImage} alt='Upload Profile Image' source={{ uri: image }} />
-                }
-            </TouchableOpacity>
-            <Input
-                style={styles.formInput}
-                size="lg"
-                marginTop="$16"
-                isReadOnly={mode && mode === 'VIEW'}
-            >
-                <InputField placeholder="Username" value={username} onChangeText={setUsername} />
-            </Input>
-            <Input
-                style={styles.formInput}
-                size="lg"
-                marginTop="$6"
-                isReadOnly={mode && mode === 'VIEW'}
-            >
-                <InputField placeholder="Phone No" value={phone_no} onChangeText={setPhoneNo} />
-            </Input>
-            <Input
-                style={styles.formInput}
-                size="lg"
-                marginTop="$6"
-                isReadOnly={mode && mode === 'VIEW'}
-            >
-                <InputField placeholder="Password" value={password} onChangeText={setPassword} />
-            </Input>
-            {mode && mode === 'ADD' ? 
-                <Button rounded="$full" alignSelf='center' w="$2/3" mt="$20" onPress={handleAddUser}>
-                    <ButtonText>Add User</ButtonText>
-                </Button>
-            :<></>}
-            {mode && mode === 'EDIT' ? 
-                <Button rounded="$full" alignSelf='center' w="$2/3" mt="$20" onPress={handleUpdateUser}>
-                    <ButtonText>Update User</ButtonText>
-                </Button>
-            :<></>}
+        <ScrollView>
+            <View style={styles.container}>
+                <TouchableOpacity style={styles.formImage} onPress={openImagePicker} disabled={mode && mode === 'VIEW'}>
+                    {image === PersonLogo ?
+                    <Image style={styles.formImage} alt='Upload Profile Image' source={image} />
+                    :<Image style={styles.formImage} alt='Upload Profile Image' source={{ uri: image }} />
+                    }
+                </TouchableOpacity>
+                <Input
+                    style={styles.formInput}
+                    size="lg"
+                    marginTop="$16"
+                    isReadOnly={mode && mode === 'VIEW'}
+                >
+                    <InputField placeholder="Username" value={username} onChangeText={setUsername} />
+                </Input>
+                <Input
+                    style={styles.formInput}
+                    size="lg"
+                    marginTop="$6"
+                    isReadOnly={mode && mode === 'VIEW'}
+                >
+                    <InputField placeholder="Phone No" keyboardType='phone-pad' value={phone_no} onChangeText={setPhoneNo} />
+                </Input>
+                <Input
+                    style={styles.formInput}
+                    size="lg"
+                    marginTop="$6"
+                    isReadOnly={mode && mode === 'VIEW'}
+                >
+                    <InputField placeholder="Password" value={password} onChangeText={setPassword} />
+                </Input>
+                {mode && mode === 'ADD' ? 
+                    <Button rounded="$full" alignSelf='center' w="$2/3" mt="$20" onPress={handleAddUser}>
+                        <ButtonText>Add User</ButtonText>
+                    </Button>
+                :<></>}
+                {mode && mode === 'EDIT' ? 
+                    <Button rounded="$full" alignSelf='center' w="$2/3" mt="$20" onPress={handleUpdateUser}>
+                        <ButtonText>Update User</ButtonText>
+                    </Button>
+                :<></>}
+            </View>
         </ScrollView>
     )
 }
@@ -132,8 +138,7 @@ export default EditUser
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: 50,
-        paddingHorizontal: 32
+        padding: 32
     },
     formImage: {
         width: 150,

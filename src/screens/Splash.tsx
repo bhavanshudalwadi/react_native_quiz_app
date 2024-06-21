@@ -19,7 +19,7 @@ const Splash = ({ navigation }: any) => {
                 await createAdmin('admin', 'admin');
                 navigation.replace('Login')
             }
-        }, 2000);
+        }, 3000);
     }, [])
 
     return (

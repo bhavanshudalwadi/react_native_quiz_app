@@ -4,6 +4,8 @@ import { addResult, addUser, getQuestions, getResult, getUser, updateUser, reset
 
 const userContext = createContext<any>(null)
 
+const PersonLogo = require('../assets/person-logo.png');
+
 const UserContextProvider = ({ children }: any) => {
     const [questions, setQuestions] = useState<any[]>([])
     const [results, setResults] = useState<any[]>([])
@@ -12,7 +14,7 @@ const UserContextProvider = ({ children }: any) => {
         username: '',
         phone_no: '',
         password: '',
-        image: 'https://static-00.iconduck.com/assets.00/person-icon-256x242-au2z2ine.png'
+        image: PersonLogo
     })
 
     const insertUser = async (userDetails: any) => {

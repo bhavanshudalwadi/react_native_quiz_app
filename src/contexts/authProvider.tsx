@@ -11,7 +11,6 @@ const AuthProvider = ({ children }: any) => {
     const result = await loginUser(loginDetails.username, loginDetails.password)
     if(result && result.length > 0 && result[0].rows.length > 0) {
       await AsyncStorage.setItem('user', JSON.stringify(result[0].rows.item(0)));
-      Alert.alert('Success', 'Login Successful')
       if(result[0].rows.item(0).username === "admin") {
         navigation.replace("Admin")
       }else {
