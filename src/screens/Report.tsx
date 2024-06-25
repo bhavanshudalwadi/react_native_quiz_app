@@ -36,14 +36,14 @@ const Report = ({ navigation, route }: any) => {
   return (
     <>
       <FlatList
-        style={styles.container}
+        contentContainerStyle={styles.container}
         data={report}
         renderItem={({ item, index }) =>
           <Alert action={actions[item.status] ?? "muted"} rounded="$2xl" m="$2" elevation="$1">
             <AlertIcon as={icons[item.status] ?? InfoIcon} size="xl" mr="$3" />
             <VStack space="xs">
               <AlertText size='sm'>Question {index+1}</AlertText>
-              <AlertText fontWeight="$bold" size='md'>{item.que}</AlertText>
+              <AlertText fontWeight="$bold" size='md' w="$80">{item.que}</AlertText>
             </VStack>
           </Alert>
         }
@@ -63,8 +63,7 @@ export default Report
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 10,
-    marginTop: 10
+    padding: 10
   },
   notFoundContainer: {
     top: '30%',

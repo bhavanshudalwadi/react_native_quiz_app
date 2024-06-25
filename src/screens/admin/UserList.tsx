@@ -17,11 +17,11 @@ const UserList = ({ navigation, route }: any) => {
   return (
     <>
       <FlatList
-        contentContainerStyle={{marginHorizontal: 16}}
+        contentContainerStyle={styles.container}
         data={users}
         renderItem={({item}) => 
           <TouchableOpacity onPress={() => navigation.navigate(mode && (mode === 'REPORT'?'Report':'EditUser'), { mode: 'EDIT', id: item.id })}>
-            <Card size="md" variant="elevated" mt="$3" m="$1">
+            <Card size="md" variant="elevated" m="$2">
               <Heading size="md">
                 {item.username}
               </Heading>
@@ -44,6 +44,9 @@ const UserList = ({ navigation, route }: any) => {
 export default memo(UserList)
 
 const styles = StyleSheet.create({
+  container: {
+    padding: 10
+  },
   notFoundContainer: {
     top: '25%',
     left: '28%',
